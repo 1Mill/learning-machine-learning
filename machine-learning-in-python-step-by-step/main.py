@@ -39,3 +39,32 @@ pyplot.savefig('./images/histograms.png')
 # * Multivariate plots
 scatter_matrix(dataset)
 pyplot.savefig('./images/scratter-plots.png')
+
+# * Part 2 - Evaluating some algorithms
+array = dataset.values
+X = array[:, 0:4]
+y = array[:, 4]
+X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=1)
+
+models = []
+models.append(('LR', LogisticRegression(solver='liblinear', multi_class='ovr')))
+models.append(('LDA', LinearDiscriminantAnalysis()))
+models.append(('KNN', KNeighborsClassifier()))
+models.append(('CART', DecisionTreeClassifier()))
+models.append(('NB', GaussianNB()))
+models.append(('SVM', SVC(gamma='auto')))
+
+results = []
+names = []
+
+for name, model in models:
+	kfold = StratifiedKFold(n_splits=10, random_state=1, shuffle=True)
+	cv_results = cross_val_score(model, X_train, Y_train, cv=kfold, scoring='accuracy')
+	results.append(cv_results)
+	names.append(name)
+	print('%s, %f (%f)' % (name, cv_results.mean(), cv_results.std()))
+
+pyplot.clf() # ! Clear plot of previous state
+pyplot.boxplot(results, labels=names)
+pyplot.title('Algorithm Comparison')
+pyplot.savefig('./images/algorithm-comparison.png')
