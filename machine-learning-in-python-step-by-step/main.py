@@ -57,6 +57,7 @@ models.append(('SVM', SVC(gamma='auto')))
 results = []
 names = []
 
+print('---')
 for name, model in models:
 	kfold = StratifiedKFold(n_splits=10, random_state=1, shuffle=True)
 	cv_results = cross_val_score(model, X_train, Y_train, cv=kfold, scoring='accuracy')
@@ -68,3 +69,14 @@ pyplot.clf() # ! Clear plot of previous state
 pyplot.boxplot(results, labels=names)
 pyplot.title('Algorithm Comparison')
 pyplot.savefig('./images/algorithm-comparison.png')
+
+# * Part 3 - Make Predictions
+
+model = SVC(gamma='auto')
+model.fit(X_train, Y_train)
+predictions = model.predict(X_validation)
+
+print('---')
+print(accuracy_score(Y_validation, predictions))
+print(confusion_matrix(Y_validation, predictions))
+print(classification_report(Y_validation, predictions))
