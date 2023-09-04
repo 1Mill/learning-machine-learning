@@ -1,0 +1,9 @@
+FROM graphcore/pytorch-jupyter:3.2.1
+
+WORKDIR /app
+
+RUN pip install \
+	matplotlib~=3.7 \
+	torchvision~=0.15
+
+CMD ["jupyter", "notebook", "--allow-root", "--ip", "0.0.0.0"]
