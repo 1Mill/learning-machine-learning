@@ -5,3 +5,9 @@
 ## Reference
 
 * Three Blue On Brown for how neural networks work
+
+## Getting started
+
+* Currently installed package versions
+  * `nvidia-smi` => `CUDA@12.2`
+  * `python@3.10.6`
